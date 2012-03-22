@@ -34,6 +34,14 @@ else {
 }
 // end include class.secure.php
 
+// wb2lepton compatibility
+if (!defined('LEPTON_PATH')) require_once WB_PATH.'/modules/'.basename(dirname(__FILE__)).'/wb2lepton.php';
+
+if (!class_exists('manufaktur_I18n'))
+  require_once LEPTON_PATH.'/modules/manufaktur_i18n/library.php';
+global $lang;
+if (!is_object($lang)) $lang = new manufaktur_I18n('manufaktur_config', LANGUAGE);
+
 class dbManufakturConfig {
 
   const FIELD_ID = 'cfg_id';
@@ -68,7 +76,6 @@ class dbManufakturConfig {
   public function __construct() {
     global $lang;
     date_default_timezone_set(CFG_TIME_ZONE);
-    $this->createTable = $createTable;
     $this->lang = $lang;
   } // __construct()
 
