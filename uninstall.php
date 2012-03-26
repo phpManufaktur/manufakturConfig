@@ -36,22 +36,8 @@ require_once WB_PATH.'/modules/manufaktur_config/class.config.php';
 
 global $admin;
 
-$tables = array(
-    'dbManufakturConfig'
-    );
-$error = '';
-
-foreach ($tables as $table) {
-	$delete = null;
-	$delete = new $table();
-	if ($delete->sqlTableExists()) {
-		if (!$delete->sqlDeleteTable()) {
-			$error .= sprintf('<p>[UNINSTALL] %s</p>', $delete->getError());
-		}
-	}
-}
-
-// Prompt Errors
-if (!empty($error)) {
-	$admin->print_error($error);
+$cfg = new dbManufakturConfig();
+if (!$cfg->deleteTable()) {
+  // Prompt Errors
+	$admin->print_error($cfg->getError());
 }

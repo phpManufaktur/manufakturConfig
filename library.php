@@ -31,3 +31,32 @@ if (defined('WB_PATH')) {
     }
 }
 // end include class.secure.php
+
+// wb2lepton compatibility
+if (!defined('LEPTON_PATH')) require_once WB_PATH.'/modules/'.basename(dirname(__FILE__)).'/wb2lepton.php';
+
+require_once LEPTON_PATH.'/modules/manufaktur_config/class.config.php';
+
+class manufakturConfig extends dbManufakturConfig {
+
+  private $module_directory = null;
+
+  public function __construct($module_directory=null) {
+    parent::__construct();
+    $this->module_directory = $module_directory;
+  } // __construct()
+
+  public function setModuleDirectory($module_directory) {
+    $this->module_directory = $module_directory;
+  } // setModuleDirectory()
+
+  public function getModuleDirectory() {
+    return $this->module_directory;
+  } // getModuleDirectory()
+
+
+} // class manufakturConfig
+
+
+global $manufakturConfig;
+if (!is_object($manufakturConfig)) $manufakturConfig = new manufakturConfig();

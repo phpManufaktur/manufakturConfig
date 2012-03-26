@@ -1,0 +1,21 @@
+/*
+ * manufakturConfig
+ *
+ * @author Ralf Hertsch <ralf.hertsch@phpmanufaktur.de>
+ * @link http://phpmanufaktur.de/kit_cronjob
+ * @copyright 2012
+ * @license http://www.gnu.org/licenses/gpl.html GNU Public License (GPL)
+ * @version $Id$
+ */
+
+#manufaktur_config {
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 10px;
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
+  color: #363636;
+  background-color: transparent;
+  width: 100%;
+  height: auto;
+}
