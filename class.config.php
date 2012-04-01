@@ -82,6 +82,7 @@ class dbManufakturConfig {
 
   private $message = '';
   private $error = '';
+  private $module_name = null;
 
   protected $lang = NULL;
 
@@ -109,11 +110,12 @@ class dbManufakturConfig {
       self::FIELD_LABEL
       );
 
-  public function __construct() {
+  public function __construct($module_name = null) {
     global $lang;
     date_default_timezone_set(CFG_TIME_ZONE);
     $this->lang = $lang;
     $this->table_name = TABLE_PREFIX.'mod_manufaktur_config';
+    $this->module_directory = $module_directory;
   } // __construct()
 
   public function createTable() {
@@ -223,6 +225,14 @@ class dbManufakturConfig {
     endswitch;
     return $error_str;
   } // XMLerrorLevel2string()
+
+  public function setModuleDirectory($module_directory) {
+    $this->module_directory = $module_directory;
+  } // setModuleDirectory()
+
+  public function getModuleDirectory() {
+    return $this->module_directory;
+  } // getModuleDirectory()
 
   public static function sanitize($item) {
     if (!is_array($item)) {
