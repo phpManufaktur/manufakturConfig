@@ -32,11 +32,11 @@ if (defined('WB_PATH')) {
 }
 // end include class.secure.php
 
-require_once WB_PATH.'/modules/manufaktur_config/class.config.php';
+require_once WB_PATH.'/modules/manufaktur_config/library.php';
 
 global $admin;
 
-$cfg = new dbManufakturConfig();
+$cfg = new manufakturConfig();
 if (!$cfg->deleteTable()) {
   // Prompt Errors
 	$admin->print_error($cfg->getError());

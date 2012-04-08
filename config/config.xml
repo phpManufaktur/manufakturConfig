@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmcfg version="0.10">
+  <module name="kitOffer" directory="kit_offer" group="KIT" date="">
+    <setting name="cfgNewTestA" usage="hidden" update="insert">
+      <value type="string">hidden &lt;b&gt;value&lt;/b&gt;</value>
+    </setting>
+    <setting name="cfgGroupOrder" usage="hidden" update="overwrite">
+      <value type="array">Page 1,Page 2, group</value>
+    </setting>
+    <setting name="cfgNewTestB" usage="regular" update="overwrite">
+      <value type="string">&lt;i&gt;regular&lt;/i&gt; value!</value>
+      <dialog set="set" page="page">
+        <label>&lt;b&gt;label&lt;/b&gt;</label>
+        <hint>hint</hint>
+      </dialog>
+    </setting>    
+  </module>
+</xmcfg>

@@ -34,6 +34,8 @@ if (defined('WB_PATH')) {
 
 global $admin;
 
+$error = '';
+
 // Prompt Errors
 if (!empty($error)) {
 	$admin->print_error($error);

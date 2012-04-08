@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmcfg version="0.10">
+  <module name="kitOffer" directory="kit_offer" group="KIT" date="2012-04-08 05:43:39">
+    <setting name="cfgNewTestA" usage="HIDDEN" update="INSERT">
+      <value type="STRING">hidden &lt;b&gt;value&lt;/b&gt;</value>
+    </setting>
+    <setting name="cfgNewTestB" usage="REGULAR" update="INSERT">
+      <value type="STRING">Irgendw&lt;b&gt;a&lt;/b&gt;s ...</value>
+      <dialog set="set" page="group">
+        <label>&lt;b&gt;label&lt;/b&gt;</label>
+        <hint>hint</hint>
+      </dialog>
+    </setting>
+    <setting name="cfgProgramActive" usage="REGULAR" update="INSERT">
+      <value type="TEXT">Lösse &lt;b&gt;mägde&lt;/b&gt; än noi?</value>
+      <dialog set="NONE" page="Page 1">
+        <label>kitOffer is active</label>
+        <hint>If you switch &lt;b&gt;off&lt;/b&gt; kitOffer it will be no longer active, also Droplets will not perform any action.</hint>
+      </dialog>
+    </setting>
+    <setting name="cfgTest1" usage="HIDDEN" update="INSERT">
+      <value type="STRING">xxxx</value>
+    </setting>
+    <setting name="cfgTest2" usage="REGULAR" update="INSERT">
+      <value type="BOOLEAN">1</value>
+      <dialog set="NONE" page="Page 1">
+        <label>kitOffer is active</label>
+        <hint>If you switch &lt;b&gt;off&lt;/b&gt; kitOffer it will be no longer active, also Droplets will not perform any action.</hint>
+      </dialog>
+    </setting>
+    <setting name="cfgTest3" usage="REGULAR" update="INSERT">
+      <value type="BOOLEAN">1</value>
+      <dialog set="grp B" page="Page 2">
+        <label>kitOffer is active</label>
+        <hint>If you switch &lt;b&gt;off&lt;/b&gt; kitOffer it will be no longer active, also Droplets will not perform any action.</hint>
+      </dialog>
+    </setting>
+    <setting name="cfgTest4" usage="REGULAR" update="INSERT">
+      <value type="BOOLEAN">0</value>
+      <dialog set="grp B" page="Page 2">
+        <label>kitOffer is active</label>
+        <hint>If you switch &lt;b&gt;off&lt;/b&gt; kitOffer it will be no longer active, also Droplets will not perform any action.</hint>
+      </dialog>
+    </setting>
+    <setting name="cfgTestAA" usage="REGULAR" update="INSERT">
+      <value type="FLOAT">12125.87</value>
+      <dialog set="grp A" page="Page 1">
+        <label>FLOAT Test</label>
+        <hint>If you switch &lt;b&gt;off&lt;/b&gt; kitOffer it will be no longer active, also Droplets will not perform any action.</hint>
+      </dialog>
+    </setting>
+    <setting name="cfgTestXX" usage="REGULAR" update="INSERT">
+      <value type="BOOLEAN">1</value>
+      <dialog set="grp A" page="Page 1">
+        <label>kitOffer is active</label>
+        <hint>If you switch &lt;b&gt;off&lt;/b&gt; kitOffer it will be no longer active, also Droplets will not perform any action.</hint>
+      </dialog>
+    </setting>
+    <setting name="mcFieldsetOrder" usage="HIDDEN" update="INSERT">
+      <value type="ARRAY">grp B,grp A,NONE,set</value>
+    </setting>
+    <setting name="mcPagesIgnore" usage="REGULAR" update="INSERT">
+      <value type="BOOLEAN">1</value>
+      <dialog set="NONE" page="Page 1">
+        <label>Ignore Pages</label>
+        <hint>Ignore them...</hint>
+      </dialog>
+    </setting>
+    <setting name="mcPagesOrder" usage="HIDDEN" update="INSERT">
+      <value type="ARRAY">Page 1,Page 2,group</value>
+    </setting>
+    <setting name="mcUseGroup" usage="REGULAR" update="INSERT">
+      <value type="BOOLEAN">1</value>
+      <dialog set="NONE" page="Page 2">
+        <label>Use Groups</label>
+        <hint>Use groups instead of module</hint>
+      </dialog>
+    </setting>
+  </module>
+  <module name="kitTest" directory="kit_test" group="KIT" date="2012-04-08 05:43:39">
+    <setting name="cfgTestExtra" usage="REGULAR" update="INSERT">
+      <value type="BOOLEAN">1</value>
+      <dialog set="grp A" page="Page 1">
+        <label>kitTest LABEL</label>
+        <hint>kitTest HINT Test</hint>
+      </dialog>
+    </setting>
+  </module>
+</xmcfg>

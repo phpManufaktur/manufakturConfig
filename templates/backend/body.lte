@@ -15,11 +15,11 @@
  * Use {dump()} to get a list of all in this template available variables!
  *}
 <div id="manufaktur_config">
-  {if isset($navigation)}
+  {if $navigation.is_active == 1}
     <ul class="navigation">
-    {foreach $navigation nav}
-      <li{if $nav.active == 1} class="selected"{/if} title="{I18n($nav.text)}">
-        <a href="{$nav.url}">
+    {foreach $navigation.items nav}
+      <li{if $nav.is_active == 1} class="selected"{/if} title="{I18n($nav.text)}">
+        <a href="{$nav.link}">
           {I18n($nav.text)}
         </a>
       </li>

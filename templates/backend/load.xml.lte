@@ -1,0 +1,53 @@
+{*
+ * manufakturConfig
+ *
+ * @author Ralf Hertsch <ralf.hertsch@phpmanufaktur.de>
+ * @link http://phpmanufaktur.de/kit_cronjob
+ * @copyright 2012
+ * @license http://www.gnu.org/licenses/gpl.html GNU Public License (GPL)
+ * @version $Id: config.lte 4 2012-03-26 04:11:53Z phpmanufaktur $
+ *
+ * Please consult the Dwoo Documentation & WIKI to get further informations 
+ * and hints for the usage of the Dwoo template engine.
+ *
+ * @link http://wiki.dwoo.org/
+ *
+ * Use {dump()} to get a list of all in this template available variables!
+ *}
+<div id="mc_dialog">
+  <form name="{$form.name}" action="{$form.action}" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="{$action.name}" value="{$action.value}" />
+    <input type="hidden" name="{$request_items.name}" value="{$request_items.value}" />
+    <h2>{I18n('Import XML file')}</h2>
+    <div class="{if count_characters($message.text) > 0}message{else}intro{/if}">
+      {if count_characters($message.text) > 0}
+        {$message.text}
+      {else}
+        {I18n('Please select the XML file which should imported.')}
+      {/if}
+    </div>
+    <div class="mc_clear"></div>
+    <div class="mc_label">{I18n('XML file')}</div>
+    <div class="mc_value"><input type="file" name="{$xml.name}" accept="text/xml" /></div>
+    <div class="mc_hint">{I18n('Select the XML file you wish to import')}</div>
+    <div class="mc_clear"></div>
+    <div class="mc_label">&nbsp;</div>
+    <div class="mc_value">
+      <input type="checkbox" name="{$xml.module_only.name}" value="{$xml.module_only.value}"{if $xml.module_only.value == 1} checked="checked"{/if}/>&nbsp;
+      {I18n('import <i>only</i> settings for <b>{{ module_name }}</b>', array(module_name=$xml.module_name))}
+    </div>
+    <div class="mc_hint">{I18n('If this box is checked, only settings for the specified addon will be imported. Otherwise all settings, also for other addons, within the XML file will be imported.')}</div>
+    <div class="mc_clear"></div>
+    <div class="mc_label">&nbsp;</div>
+    <div class="mc_value">
+      <input type="checkbox" name="{$xml.reset_values.name}" value="{$xml.reset_values.value}"{if $xml.reset_values.value == 1} checked="checked"{/if}/>&nbsp;
+      {I18n('<i>reset</i> all settings to <b>default value</b>')}
+    </div>
+    <div class="mc_hint">{I18n('If you check this, all settings will be set to the value specified within the XML file. Otherwise the import will use the general data handling.')}</div>
+    <div class="mc_clear"></div>
+    <div class="mc_submit">
+      <input type="submit" value="{I18n('OK')}" />&nbsp;
+      <input type="button" value="{I18n('Abort')}" onclick="javascript: window.location = '{$form.action}'; return false;" />
+    </div>
+  </form>
+</div>

@@ -19,3 +19,81 @@
   width: 100%;
   height: auto;
 }
+#manufaktur_config > .navigation {
+  padding: 3px 0 3px 10px;
+  margin: 15px 0 0 0;
+  border-bottom: 1px solid #ddd;
+  list-style-type: none;
+  text-align: left;
+}
+#manufaktur_config > .navigation li {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+#manufaktur_config > .navigation li a {
+  text-decoration: none;
+  padding: 3px 7px;
+  margin: 0 3px 0 0;
+  border: 1px solid #dddddd;
+  border-bottom: none;
+}
+#manufaktur_config > .navigation li a:link,
+#manufaktur_config > .navigation li a:visited {
+  color: #fff;
+  background-color: #969696;
+}
+#manufaktur_config > .navigation li a:hover,
+#manufaktur_config > .navigation li a:active {
+  background-color: #363636;
+  color: #fff;
+}
+#manufaktur_config > .navigation li.selected a { 
+  position: relative;
+  top: 1px;
+  padding-top: 4px;
+  color: #363636;
+  background-color: #fff;
+  font-weight: bold;
+}
+
+#mc_dialog {
+  background-image: url(images/background/settings.png);
+  background-position: top right;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  margin: 0;
+  padding: 5px 10px 20px 10px;
+}
+#mc_dialog fieldset {
+  margin: 0 0 10px 0;
+  padding: 5px 5px 0px 5px;
+}
+.mc_clear {
+  clear: both;
+  padding: 0;
+  margin: 0;
+  height: 5px;
+}
+.mc_label {
+  float: left;
+  width: 20%;
+  font-weight: normal;
+}
+.mc_value {
+  float: left;
+  width: 35%;
+}
+.mc_hint {
+  float: left;
+  width: 45%;
+  font-style: italic;
+}
+.mc_xml_action {
+  margin: 0;
+  padding: 0;
+}
+.mc_submit {
+  margin: 20px 0 0 0;
+  padding: 0 0 0 20%;
+}
