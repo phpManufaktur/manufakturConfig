@@ -11,7 +11,7 @@
  *
  * FOR VERSION- AND RELEASE NOTES PLEASE LOOK AT INFO.TXT!
  *
- * Empty include.php for use with Websitebaker & LEPTON CMS, allows installation
+ * Empty include.php for use with WebsiteBaker, allows installation
  * as a module of type "Snippet" without polluting the CMS.
  */
 
