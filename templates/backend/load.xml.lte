@@ -17,7 +17,6 @@
 <div id="mc_dialog">
   <form name="{$form.name}" action="{$form.action}" method="post" enctype="multipart/form-data">
     <input type="hidden" name="{$action.name}" value="{$action.value}" />
-    <input type="hidden" name="{$request_items.name}" value="{$request_items.value}" />
     <h2>{I18n('Import XML file')}</h2>
     <div class="{if count_characters($message.text) > 0}message{else}intro{/if}">
       {if count_characters($message.text) > 0}

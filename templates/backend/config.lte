@@ -24,7 +24,7 @@
       {if count_characters($message.text) > 0}
         {$message.text}
       {else}
-        {I18n('Edit the settings for kitCronjob.')}
+        {I18n('Edit the settings for {{ module_name }}.', array(module_name=$module_name))}
       {/if}
     </div>
     {$fieldset = 'ZERO'}

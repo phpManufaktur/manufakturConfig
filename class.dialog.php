@@ -69,14 +69,14 @@ class manufakturConfigDialog {
   const ACTION_XML_IMPORT = 'xim';
   const ACTION_XML_FILE = 'xmlf';
 
-  private $message = '';
-  private $error = '';
-  private $module_directory = '';
-  private $module_name = '';
-  private $dialog_link = '';
-  private $img_url = '';
-  private $lang = null;
-  private $pages = null;
+  private static $message = '';
+  private static $error = '';
+  private static $module_directory = '';
+  private static $module_name = '';
+  private static $dialog_link = '';
+  private static $img_url = '';
+  private static $pages = null;
+  protected $lang = null;
 
   /**
    * Constructor for the manufakturConfigDialog
@@ -87,12 +87,12 @@ class manufakturConfigDialog {
    */
   public function __construct($module_directory, $module_name, $dialog_link) {
     global $lang;
-    $this->module_directory = $module_directory;
-    $this->module_name = $module_name;
-    $this->dialog_link = $dialog_link;
     $this->lang = $lang;
-    $this->img_url = LEPTON_URL.'/modules/'.basename(dirname(__FILE__)).'/images/';
-    $this->pages = null;
+    self::$module_directory = $module_directory;
+    self::$module_name = $module_name;
+    self::$dialog_link = $dialog_link;
+    self::$img_url = LEPTON_URL.'/modules/'.basename(dirname(__FILE__)).'/images/';
+    self::$pages = null;
     // make shure that the KIT_HTML_REQUEST session is active!
     if (!isset($_SESSION['KIT_HTML_REQUEST'])) $_SESSION['KIT_HTML_REQUEST'] = array();
   } // __construct()
@@ -101,14 +101,14 @@ class manufakturConfigDialog {
    * @return string $message
    */
   public function getMessage() {
-    return $this->message;
+    return self::$message;
   }
 
   /**
    * @param string $message
    */
   protected function setMessage($message) {
-    $this->message = $message;
+    self::$message = $message;
   }
 
   /**
@@ -117,21 +117,21 @@ class manufakturConfigDialog {
    * @return boolean
    */
   public function isMessage() {
-    return (bool) !empty($this->message);
+    return (bool) !empty(self::$message);
   } // isMessage
 
   /**
    * @return string $error
    */
   public function getError() {
-    return $this->error;
+    return self::$error;
   }
 
   /**
    * @param string $error
    */
   protected function setError($error) {
-    $this->error = $error;
+    self::$error = $error;
   }
 
   /**
@@ -140,7 +140,7 @@ class manufakturConfigDialog {
    * @return boolean
    */
   public function isError() {
-    return (bool) !empty($this->error);
+    return (bool) !empty(self::$error);
   } // isMessage
 
   /**
@@ -171,6 +171,8 @@ class manufakturConfigDialog {
 
   /**
    * The action handler for manufakturConfigDialog
+   * This function expects that the xssPrevent method will be executed by the
+   * calling backend module!
    *
    * @return string result dialog
    */
@@ -215,10 +217,10 @@ class manufakturConfigDialog {
    * @return Ambigous <boolean, string, mixed>
    */
   protected function show($action, $content) {
-    $navigation = $this->pages;
+    $navigation = self::$pages;
     $data = array(
         'LEPTON_URL' => LEPTON_URL,
-        'IMG_URL' => $this->img_url,
+        'IMG_URL' => self::$img_url,
         'navigation' => $navigation,
         'error' => ($this->isError()) ? 1 : 0,
         'content' => ($this->isError()) ? $this->getError() : $content
@@ -235,7 +237,7 @@ class manufakturConfigDialog {
     global $manufakturConfig;
 
     $pages = array();
-    if (false === ($count_pages = $manufakturConfig->countPages($this->module_directory, $pages))) {
+    if (false === ($count_pages = $manufakturConfig->countPages(self::$module_directory, $pages))) {
       $this->setError(sprintf('[%s - %s] %s', __METHOD__, __LINE__, $manufakturConfig->getError()));
       return false;
     }
@@ -246,23 +248,22 @@ class manufakturConfigDialog {
       $page = null;
     }
     $settings = array();
-    if (!$manufakturConfig->getSettingsForModule($this->module_directory, $settings, $page, true)) {
+    if (!$manufakturConfig->getSettingsForModule(self::$module_directory, $settings, $page, true)) {
       $this->setError(sprintf('[%s - %s] %s', __METHOD__, __LINE__, $manufakturConfig->getError()));
       return false;
     }
-
     $pages_array = array();
     foreach ($pages as $text) {
       $pages_array[] = array(
           'text' => $text,
-          'link' => sprintf('%s&amp;%s', $this->dialog_link, http_build_query(array(
+          'link' => sprintf('%s&amp;%s', self::$dialog_link, http_build_query(array(
               self::REQUEST_ACTION => self::ACTION_DIALOG,
               manufakturConfig::FIELD_VALUE_PAGE => urlencode($text)
               ))),
           'is_active' => ($text == $page) ? 1 : 0
           );
     }
-    $this->pages = array(
+    self::$pages = array(
         'is_active' => is_null($page) ? 0 : 1,
         'actual' => $page,
         'items' => $pages_array
@@ -294,9 +295,11 @@ class manufakturConfigDialog {
       }
     }
     $data = array(
+        'module_directory' => self::$module_directory,
+        'module_name' => self::$module_name,
         'form' => array(
             'name' => 'manufaktur_cfg',
-            'action' => $this->dialog_link),
+            'action' => self::$dialog_link),
         'action' => array(
             'name' => self::REQUEST_ACTION,
             'value' => self::ACTION_CHECK),
@@ -382,8 +385,8 @@ class manufakturConfigDialog {
     global $manufakturConfig;
 
     if ($_REQUEST[self::REQUEST_XML_ACTION] == self::ACTION_XML_EXPORT_MODULE) {
-      $module_directory = $this->module_directory;
-      $path = LEPTON_PATH.MEDIA_DIRECTORY.'/'.date('ymd').'-'.$this->module_directory.'-config.xml';
+      $module_directory = self::$module_directory;
+      $path = LEPTON_PATH.MEDIA_DIRECTORY.'/'.date('ymd').'-'.$module_directory.'-config.xml';
     }
     else {
       $module_directory = null;
@@ -406,7 +409,7 @@ class manufakturConfigDialog {
     $data = array(
         'form' => array(
             'name' => 'manufaktur_import_xml',
-            'action' => $this->dialog_link
+            'action' => self::$dialog_link
             ),
         'action' => array(
             'name' => self::REQUEST_ACTION,
@@ -415,8 +418,8 @@ class manufakturConfigDialog {
         'message' => array(
             'text' => $this->isMessage() ? $this->getMessage() : ''),
         'xml' => array(
-            'module_name' => $this->module_name,
-            'module_directory' => $this->module_directory,
+            'module_name' => self::$module_name,
+            'module_directory' => self::$module_directory,
             'name' => self::REQUEST_XML_FILE,
             'module_only' => array(
                 'name' => self::REQUEST_XML_MODULE_ONLY,
@@ -487,7 +490,7 @@ class manufakturConfigDialog {
       $this->setMessage($this->lang->I18n('There was no file specified for upload!'));
       return $this->xmlImport();
     }
-    $module_directory = isset($_REQUEST[self::REQUEST_XML_MODULE_ONLY]) ? $this->module_directory : null;
+    $module_directory = isset($_REQUEST[self::REQUEST_XML_MODULE_ONLY]) ? self::$module_directory : null;
     $reset_values = isset($_REQUEST[self::REQUEST_XML_RESET_VALUES]) ? true : false;
     if (!$manufakturConfig->readXMLfile($xml_path, $module_directory, $reset_values)) {
       $this->setError(sprintf('[%s - %s] %s', __METHOD__, __LINE__, $manufakturConfig->getError()));
