@@ -4,12 +4,9 @@
  * manufakturConfig
  *
  * @author Ralf Hertsch <ralf.hertsch@phpmanufaktur.de>
- * @link http://phpmanufaktur.de
- * @copyright 2012 - phpManufaktur by Ralf Hertsch
- * @license http://www.gnu.org/licenses/gpl.html GNU Public License (GPL)
- * @version $Id$
- *
- * FOR VERSION- AND RELEASE NOTES PLEASE LOOK AT INFO.TXT!
+ * @link https://addons.phpmanufaktur.de/manufakturConfig
+ * @copyright 2012 phpManufaktur by Ralf Hertsch
+ * @license MIT License (MIT) http://www.opensource.org/licenses/MIT
  */
 
 // include class.secure.php to protect this file and the whole CMS!
@@ -33,13 +30,18 @@ if (defined('WB_PATH')) {
 // end include class.secure.php
 
 // wb2lepton compatibility
-if (!defined('LEPTON_PATH')) require_once WB_PATH.'/modules/'.basename(dirname(__FILE__)).'/wb2lepton.php';
+if (!defined('LEPTON_PATH'))
+  require_once WB_PATH.'/modules/'.basename(dirname(__FILE__)).'/wb2lepton.php';
 
-if (!class_exists('manufaktur_I18n'))
-  require_once LEPTON_PATH.'/modules/manufaktur_i18n/library.php';
-global $lang;
-if (!is_object($lang))
-  $lang = new manufaktur_I18n('manufaktur_config', LANGUAGE);
+// use LEPTON 2.x I18n for access to language files
+if (!class_exists('LEPTON_Helper_I18n'))
+  require_once LEPTON_PATH.'/modules/'. basename(dirname(__FILE__)).'/framework/LEPTON/Helper/I18n.php';
+
+global $I18n;
+if (!is_object($I18n))
+  $I18n = new LEPTON_Helper_I18n();
+else
+  $I18n->addFile('DE.php', LEPTON_PATH.'/modules/'.basename(dirname(__FILE__)).'/languages/');
 
 class manufakturConfig {
 
@@ -125,9 +127,9 @@ class manufakturConfig {
    * @param string $module_directory
    */
   public function __construct($module_directory = null) {
-    global $lang;
+    global $I18n;
     date_default_timezone_set(CFG_TIME_ZONE);
-    $this->lang = $lang;
+    $this->lang = $I18n;
     $this->table_name = TABLE_PREFIX.'mod_manufaktur_config';
     $this->module_directory = $module_directory;
   } // __construct()
@@ -487,7 +489,7 @@ class manufakturConfig {
     $this->setMessage();
     if (count($id_array) < 1) {
       $this->setError(sprintf('[%s - %s] %s', __METHOD__, __LINE__,
-          $this->lang->I18n('Got no IDs for processing the settings!')));
+          $this->lang->translate('Got no IDs for processing the settings!')));
       return false;
     }
     $SQL = sprintf('SELECT * FROM `%1$s` WHERE FIND_IN_SET(`cfg_id`, \'%2$s\') ORDER BY FIND_IN_SET(`cfg_id`, \'%2$s\')',
@@ -520,7 +522,7 @@ class manufakturConfig {
             $this->setError(sprintf('[%s - %s] %s', __METHOD__, __LINE__, $database->get_error()));
             return false;
           }
-          $message .= $this->lang->I18n('<p>Set value of <b>{{ field_name }}</b> to <i>{{ field_value }}</i>.</p>',
+          $message .= $this->lang->translate('<p>Set value of <b>{{ field_name }}</b> to <i>{{ field_value }}</i>.</p>',
               array('field_name' => $setting[self::FIELD_NAME], 'field_value' => self::unsanitize($value)));
         }
         unset($_REQUEST[$setting[self::FIELD_NAME]]);
@@ -589,7 +591,7 @@ class manufakturConfig {
   public function formatValue($value, $type, $format) {
     if (!in_array($format, $this->format_array)) {
       $this->setError(sprintf('[%s - %s] %s', __METHOD__, __LINE__,
-          $this->lang->I18n('The format <b>{{ format }}</b> is not defined!', array('format' => $format))));
+          $this->lang->translate('The format <b>{{ format }}</b> is not defined!', array('format' => $format))));
       return false;
     }
     switch ($type):
@@ -631,7 +633,7 @@ class manufakturConfig {
       case self::FORMAT_SAVE:
         $value = strtolower(trim($value));
         if (!self::checkEMailAddress($value)) {
-          $this->setMessage($this->lang->I18n('<p>The email address <b>{{ email }}</b> is not valid!</p>',
+          $this->setMessage($this->lang->translate('<p>The email address <b>{{ email }}</b> is not valid!</p>',
               array('email' => $value)));
           return null;
         }
@@ -694,7 +696,7 @@ class manufakturConfig {
       // problem: undefined type!
       if (empty($type)) $value_type = 'NULL';
       $this->setError(sprintf('[%s - %s] %s', __METHOD__, __LINE__,
-          $this->lang->I18n('The type <b>{{ type }}</b> is not defined!', array('type' => $type))));
+          $this->lang->translate('The type <b>{{ type }}</b> is not defined!', array('type' => $type))));
     endswitch;
     return null;
   } // formatValue
@@ -728,7 +730,7 @@ class manufakturConfig {
       }
       if ($query->numRows() < 1) {
         $this->setError(sprintf('[%s - %s] %s', __METHOD__, __LINE__,
-            $this->lang->I18n('The configuration record with the <b>ID {{ id }}</b> does not exist!',
+            $this->lang->translate('The configuration record with the <b>ID {{ id }}</b> does not exist!',
                 array('id', $id))));
         return false;
       }
@@ -741,7 +743,7 @@ class manufakturConfig {
               (!isset($data[self::FIELD_MODULE_NAME]) || empty($data[self::FIELD_MODULE_NAME])))) {
         // the field NAME and the MODULE NAME or the MODULE DIRECTORY must be set
         $this->setError(sprintf('[%s - %s] %s', __METHOD__, __LINE__,
-            $this->lang->I18n('The configuration record is not valid, a <b>name</b> and the <b>module name</b> or the <b>module directory</b> is needed for identify')));
+            $this->lang->translate('The configuration record is not valid, a <b>name</b> and the <b>module name</b> or the <b>module directory</b> is needed for identify')));
         return false;
       }
       $SQL = sprintf("SELECT * FROM `%s` WHERE `cfg_name`='%s' AND `cfg_module_directory`='%s'",
@@ -768,7 +770,7 @@ class manufakturConfig {
       // if ID > 1 only the VALUE must be set
       if (!isset($data[self::FIELD_VALUE])) {
         $this->setError(sprintf('[%s - %s] %s', __METHOD__, __LINE__,
-            $this->lang->I18n('Missing the <b>value</b> for the configuration record with the <b>ID {{ id }}</b>.',
+            $this->lang->translate('Missing the <b>value</b> for the configuration record with the <b>ID {{ id }}</b>.',
                 array('id', $id))));
         return false;
       }
@@ -787,7 +789,7 @@ class manufakturConfig {
           $this->setError(sprintf('[%s - %s] %s', __METHOD__, __LINE__, $database->get_error()));
           return false;
         }
-        $message .= $this->lang->I18n('<p>The configuration record <b>{{ name }}</b> was successfull deleted.</p>',
+        $message .= $this->lang->translate('<p>The configuration record <b>{{ name }}</b> was successfull deleted.</p>',
             array('name' => $data[self::FIELD_NAME]));
       }
       elseif (($changed && !isset($data[self::FIELD_UPDATE])) ||
@@ -808,7 +810,7 @@ class manufakturConfig {
           $this->setError(sprintf('[%s - %s] %s', __METHOD__, __LINE__, $database->get_error()));
           return false;
         }
-        $message .= $this->lang->I18n('<p>The configuration record <b>{{ name }}</b> was successfull updated.</p>',
+        $message .= $this->lang->translate('<p>The configuration record <b>{{ name }}</b> was successfull updated.</p>',
             array('name' => $data[self::FIELD_NAME]));
       }
     }
@@ -821,7 +823,7 @@ class manufakturConfig {
         // special case: setting only for the internal usage, need only NAME, TYPE and VALUE
         if (!isset($data[self::FIELD_NAME]) || !isset($data[self::FIELD_TYPE]) || !isset($data[self::FIELD_VALUE])) {
           $this->setError(sprintf('[%s - %s] %s', __METHOD__, __LINE__,
-              $this->lang->I18n('At minimun the fields NAME, TYPE and VALUE must set for configuration records of type HIDDEN.')));
+              $this->lang->translate('At minimun the fields NAME, TYPE and VALUE must set for configuration records of type HIDDEN.')));
           return false;
         }
         $data[self::FIELD_HINT] = '';
@@ -832,7 +834,7 @@ class manufakturConfig {
         foreach ($this->must_fields as $must) {
           if (!isset($data[$must])) {
             $this->setError(sprintf('[%s - %s] %s', __METHOD__, __LINE__,
-                $this->lang->I18n('The field <b>{{ field }}</b> must be defined!', array('field' => $must))));
+                $this->lang->translate('The field <b>{{ field }}</b> must be defined!', array('field' => $must))));
             return false;
           }
         }
@@ -857,7 +859,7 @@ class manufakturConfig {
         $this->setError(sprintf('[%s - %s] %s', __METHOD__, __LINE__, $database->get_error()));
         return false;
       }
-      $message .= $this->lang->I18n('<p>The configuration record <b>{{ name }}</b> was successfull inserted.</p>',
+      $message .= $this->lang->translate('<p>The configuration record <b>{{ name }}</b> was successfull inserted.</p>',
           array('name' => $data[self::FIELD_NAME]));
     }
     $this->setMessage($message);
@@ -884,7 +886,7 @@ class manufakturConfig {
     }
     if ($query->numRows() < 1) {
       $this->setError(sprintf('[%s - %s] %s', __METHOD__, __LINE__,
-          $this->lang->I18n('The configuration key <b>{{ name }}</b> for the module directory <b>{{ directory }}</b> does not exists!',
+          $this->lang->translate('The configuration key <b>{{ name }}</b> for the module directory <b>{{ directory }}</b> does not exists!',
               array('name' => $name, 'directory' => $module_directory))));
       return null;
     }
@@ -960,7 +962,7 @@ class manufakturConfig {
    */
   public function readXMLfile($path, $module_directory=null, $reset_values=false) {
     if (!file_exists($path)) {
-      $this->setError(sprintf('[%s - %s] %s', $this->lang->I18n('The XML file <b>{{ file }}</b> does not exist!',
+      $this->setError(sprintf('[%s - %s] %s', $this->lang->translate('The XML file <b>{{ file }}</b> does not exist!',
           array('file' => substr($path, strlen(LEPTON_PATH))))));
       return false;
     }
@@ -975,14 +977,14 @@ class manufakturConfig {
     if ($xmlIterator->getName() != 'xmcfg') {
       // no valid XMCFG file!
       $this->setError(sprintf('[%s - %s] %s', __METHOD__, __LINE__,
-          $this->lang->I18n('The file <b>{{ file }}</b> is no valid manufakturConfig file, missing the XML element <b>xmcfg</b>.',
+          $this->lang->translate('The file <b>{{ file }}</b> is no valid manufakturConfig file, missing the XML element <b>xmcfg</b>.',
               array('file' => substr($path, strlen(LEPTON_PATH))))));
       return false;
     }
     if (!isset($xmlIterator->attributes()->version)) {
       // missing the version information for the XMCFG file!
       $this->setError(sprintf('[%s - %s] %s', __METHOD__, __LINE__,
-          $this->lang->I18n('The file <b>{{ file }}</b> is no valid manufakturConfig file, missing the <b>version attribute</b> in the XML element <b>xmcfg</b>.',
+          $this->lang->translate('The file <b>{{ file }}</b> is no valid manufakturConfig file, missing the <b>version attribute</b> in the XML element <b>xmcfg</b>.',
               array('file' => substr($path, strlen(LEPTON_PATH))))));
       return false;
     }
@@ -997,7 +999,7 @@ class manufakturConfig {
       if (!isset($module->name) || !isset($module->directory) || !isset($module->group) || !isset($module->date)) {
         // missing module attributes
         $this->setError(sprintf('[%s - %s] %s', __METHOD__, __LINE__,
-            $this->lang->I18n('The file <b>{{ file }}</b> is no valid manufakturConfig file, missing one or more <b>module attribute</b> in the XML element <b>module</b>, needed are <i>name, directory, group and date</i>.',
+            $this->lang->translate('The file <b>{{ file }}</b> is no valid manufakturConfig file, missing one or more <b>module attribute</b> in the XML element <b>module</b>, needed are <i>name, directory, group and date</i>.',
                 array('file' => substr($path, strlen(LEPTON_PATH))))));
         return false;
       }
@@ -1014,7 +1016,7 @@ class manufakturConfig {
         $attr = $setting->attributes();
         if (!isset($attr->name) || !isset($attr->usage) || ! isset($attr->update)) {
           // no valid attributes for this setting
-          $message .= $this->lang->I18n('<p>Missing attributes for the setting <b>{{ name }}</b>, needed are <i>name, usage</i> and <i>update</i>, skipped entry!</p>',
+          $message .= $this->lang->translate('<p>Missing attributes for the setting <b>{{ name }}</b>, needed are <i>name, usage</i> and <i>update</i>, skipped entry!</p>',
               array('name' => isset($attr->name) ? $attr->name : '-unknown-'));
           continue;
         }
@@ -1027,7 +1029,7 @@ class manufakturConfig {
         $data[self::FIELD_UPDATE] = strtoupper($attr->update);
         if (!isset($setting->value->attributes()->type)) {
           // missing the type for the value
-          $message .= $this->lang->I18n('<p>Missing the attribute <b>type</b> for the value of <b>{{ name }}</b>, skipped entry!</p>',
+          $message .= $this->lang->translate('<p>Missing the attribute <b>type</b> for the value of <b>{{ name }}</b>, skipped entry!</p>',
               array('name' => $attr->name));
           continue;
         }
@@ -1041,12 +1043,12 @@ class manufakturConfig {
           // need additional informations about presenting the value in the dialog
           if (!isset($setting->dialog)) {
             // missing tag 'dialog'
-            $message .= $this->lang->I18n('<p>Missing the tag <b>dialog</b> for <b>{{ name }}</b>, skipped entry!</p>',
+            $message .= $this->lang->translate('<p>Missing the tag <b>dialog</b> for <b>{{ name }}</b>, skipped entry!</p>',
                 array('name' => $attr->name));
             continue;
           }
           if (!isset($setting->dialog->attributes()->set) || !isset($setting->dialog->attributes()->page)) {
-            $message .= $this->lang->I18n('<p>Missing attributes for the <b>dialog</b> tag, needed are <i>set</i> and <i>page</i>, skipped entry!</p>');
+            $message .= $this->lang->translate('<p>Missing attributes for the <b>dialog</b> tag, needed are <i>set</i> and <i>page</i>, skipped entry!</p>');
             continue;
           }
           $data[self::FIELD_VALUE_PAGE] = (string) $setting->dialog->attributes()->page;
@@ -1067,7 +1069,7 @@ class manufakturConfig {
       }
     }
     if (empty($message)) {
-      $message = $this->lang->I18n('There were no settings to process!');
+      $message = $this->lang->translate('There were no settings to process!');
     }
     $this->setMessage($message);
     return true;
@@ -1141,17 +1143,17 @@ class manufakturConfig {
       $result = $this->xmlPrettyPrint($result);
       // save the XML file
       if (!file_put_contents($path, $result)) {
-        $this->setError(sprintf('[%s - %s] %s', __METHOD__, __LINE__, $this->lang->I18n('Error writing the XML file {{ file }}.',
+        $this->setError(sprintf('[%s - %s] %s', __METHOD__, __LINE__, $this->lang->translate('Error writing the XML file {{ file }}.',
             array('file' => substr($path, strlen(LEPTON_PATH))))));
         return false;
       }
       // ready
-      $this->setMessage($this->lang->I18n('<p>Saved <b>{{ count }}</b> configuration records as XML file at <b>{{ file }}</b></p>',
+      $this->setMessage($this->lang->translate('<p>Saved <b>{{ count }}</b> configuration records as XML file at <b>{{ file }}</b></p>',
           array('count' => $count, 'file' => substr($path, strlen(LEPTON_PATH)))));
     }
     else {
       // no entries found!
-      $this->setMessage($this->lang->I18n('<p>There are no configuration records to save as XML file.</p>'));
+      $this->setMessage($this->lang->translate('<p>There are no configuration records to save as XML file.</p>'));
       return true;
     }
     return true;

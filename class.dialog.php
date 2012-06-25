@@ -4,33 +4,28 @@
  * manufakturConfig
  *
  * @author Ralf Hertsch <ralf.hertsch@phpmanufaktur.de>
- * @link http://phpmanufaktur.de
+ * @link https://addons.phpmanufaktur.de/manufakturConfig
  * @copyright 2012 phpManufaktur by Ralf Hertsch
- * @license http://www.gnu.org/licenses/gpl.html GNU Public License (GPL)
- * @version $Id$
- *
- * FOR VERSION- AND RELEASE NOTES PLEASE LOOK AT INFO.TXT!
+ * @license MIT License (MIT) http://www.opensource.org/licenses/MIT
  */
 
 // include class.secure.php to protect this file and the whole CMS!
 if (defined('WB_PATH')) {
-  if (defined('LEPTON_VERSION'))
-    include(WB_PATH.'/framework/class.secure.php');
-}
-else {
-  $oneback = "../";
-  $root = $oneback;
-  $level = 1;
-  while (($level < 10) && (!file_exists($root.'/framework/class.secure.php'))) {
-    $root .= $oneback;
-    $level += 1;
-  }
-  if (file_exists($root.'/framework/class.secure.php')) {
-    include($root.'/framework/class.secure.php');
-  }
-  else {
-    trigger_error(sprintf("[ <b>%s</b> ] Can't include class.secure.php!", $_SERVER['SCRIPT_NAME']), E_USER_ERROR);
-  }
+    if (defined('LEPTON_VERSION')) include(WB_PATH.'/framework/class.secure.php');
+} else {
+    $oneback = "../";
+    $root = $oneback;
+    $level = 1;
+    while (($level < 10) && (!file_exists($root.'/framework/class.secure.php'))) {
+        $root .= $oneback;
+        $level += 1;
+    }
+    if (file_exists($root.'/framework/class.secure.php')) {
+        include($root.'/framework/class.secure.php');
+    } else {
+        trigger_error(sprintf("[ <b>%s</b> ] Can't include class.secure.php!",
+                $_SERVER['SCRIPT_NAME']), E_USER_ERROR);
+    }
 }
 // end include class.secure.php
 
@@ -86,8 +81,8 @@ class manufakturConfigDialog {
    * @param string $dialog_link link of the calling admin tool
    */
   public function __construct($module_directory, $module_name, $dialog_link) {
-    global $lang;
-    $this->lang = $lang;
+    global $I18n;
+    $this->lang = $I18n;
     self::$module_directory = $module_directory;
     self::$module_name = $module_name;
     self::$dialog_link = $dialog_link;
@@ -160,7 +155,7 @@ class manufakturConfigDialog {
     try {
       $result = $parser->get($load_template, $template_data);
     } catch (Exception $e) {
-      $this->setError(sprintf('[%s - %s] %s', __METHOD__, __LINE__, $this->lang->I18n(
+      $this->setError(sprintf('[%s - %s] %s', __METHOD__, __LINE__, $this->lang->translate(
           'Error executing the template ' . '<b>{{ template }}</b>: {{ error }}', array(
               'template' => basename($load_template),
               'error' => $e->getMessage()))));
@@ -205,7 +200,6 @@ class manufakturConfigDialog {
     default:
       $result = $this->show(self::ACTION_DIALOG, $this->dlgSettings());
     endswitch;
-
     return $result;
   } // action()
 
@@ -313,19 +307,19 @@ class manufakturConfigDialog {
             'items' => array(
                 array(
                     'value' => self::ACTION_NO_ACTION,
-                    'text' => $this->lang->I18n_Register('- no XML action -')
+                    'text' => $this->lang->translate('- no XML action -')
                     ),
                 array(
                     'value' => self::ACTION_XML_EXPORT_MODULE,
-                    'text' => $this->lang->I18n_Register('Export the settings for this module as XML file (single)')
+                    'text' => $this->lang->translate('Export the settings for this module as XML file (single)')
                     ),
                 array(
                     'value' => self::ACTION_XML_EXPORT_ALL,
-                    'text' => $this->lang->I18n_Register('Export the settings for all modules as XML file (complete)')
+                    'text' => $this->lang->translate('Export the settings for all modules as XML file (complete)')
                     ),
                 array(
                     'value' => self::ACTION_XML_IMPORT,
-                    'text' => $this->lang->I18n_register('Import settings from XML file')
+                    'text' => $this->lang->translate('Import settings from XML file')
                     )
                 )
             ),
@@ -348,7 +342,7 @@ class manufakturConfigDialog {
 
     if (!isset($_REQUEST[self::REQUEST_ITEMS])) {
       $this->setError(sprintf('[%s - %s] %s', __METHOD__, __LINE__,
-          $this->lang->I18n('Missing the parameter REQUEST_ITEMS.')));
+          $this->lang->translate('Missing the parameter REQUEST_ITEMS.')));
       return false;
     }
     $items = $_REQUEST[self::REQUEST_ITEMS];
@@ -365,12 +359,12 @@ class manufakturConfigDialog {
     }
     elseif ($changed_settings) {
       // settings has changed
-      $this->setMessage($this->lang->I18n('<p>The settings has changed:</p>{{ changed_settings }}',
+      $this->setMessage($this->lang->translate('<p>The settings has changed:</p>{{ changed_settings }}',
           array('changed_settings' => $manufakturConfig->getMessage())));
     }
     else {
       // nothing changed
-      $this->setMessage($this->lang->I18n('<p>The settings has not changed.</p>'));
+      $this->setMessage($this->lang->translate('<p>The settings has not changed.</p>'));
     }
     return $this->dlgSettings();
   } // checkSettings()
@@ -449,7 +443,7 @@ class manufakturConfigDialog {
       if ($_FILES[self::REQUEST_XML_FILE]['error'] == UPLOAD_ERR_OK) {
         if ($_FILES[self::REQUEST_XML_FILE]['type'] != 'text/xml') {
           // this is not a XML file!
-          $this->setMessage($this->lang->I18n('The uploaded file <b>{{ file }}</b> is not a valid XML file!',
+          $this->setMessage($this->lang->translate('The uploaded file <b>{{ file }}</b> is not a valid XML file!',
               array('file' => $_FILES[self::REQUEST_XML_FILE]['name'])));
           @unlink($_FILES[self::REQUEST_XML_FILE]['tmp_name']);
           return $this->xmlImport();
@@ -457,7 +451,7 @@ class manufakturConfigDialog {
         $xml_path = LEPTON_PATH.'/temp/'.$_FILES[self::REQUEST_XML_FILE]['name'];
         if (!move_uploaded_file($_FILES[self::REQUEST_XML_FILE]['tmp_name'], $xml_path)) {
           $this->setError(sprintf('[%s - %s] %s', __METHOD__, __LINE__,
-              $this->lang->I18n('The file {{ file }} could not moved to the temporary directory.',
+              $this->lang->translate('The file {{ file }} could not moved to the temporary directory.',
                   array('file' => $_FILES[self::REQUEST_XML_FILE]['name']))));
           return false;
         }
@@ -465,19 +459,19 @@ class manufakturConfigDialog {
       else {
         switch ($_FILES[self::REQUEST_XML_FILE]['error']) :
         case UPLOAD_ERR_INI_SIZE:
-          $error = $this->lang->I18n('The uploaded file <b>{{ file }}</b> is greater than the parameter <b>upload_max_filesize</b> of <b>{{ max_size }}</b> within the <b>php.ini</b>',
+          $error = $this->lang->translate('The uploaded file <b>{{ file }}</b> is greater than the parameter <b>upload_max_filesize</b> of <b>{{ max_size }}</b> within the <b>php.ini</b>',
               array('max_size' => ini_get('upload_max_filesize'), 'file' => $_FILES[self::REQUEST_XML_FILE]['name']));
           break;
         case UPLOAD_ERR_FORM_SIZE:
-          $error = $this->lang->I18n('The uploaded file <b>{{ file }}</b> is greater than MAX_FILE_SIZE within the form directive.',
+          $error = $this->lang->translate('The uploaded file <b>{{ file }}</b> is greater than MAX_FILE_SIZE within the form directive.',
               array('file' => $_FILES[self::REQUEST_XML_FILE]['name']));
           break;
         case UPLOAD_ERR_PARTIAL:
-          $error = $this->lang->I18n('The file <b>{{ file }}</b> was uploaded partial, please try again!',
+          $error = $this->lang->translate('The file <b>{{ file }}</b> was uploaded partial, please try again!',
               array('file' => $_FILES[self::request_file]['name']));
           break;
         default:
-          $error = $this->lang->I18n('A not described error occured during file upload, please try again!');
+          $error = $this->lang->translate('A not described error occured during file upload, please try again!');
           break;
         endswitch;
         @unlink($_FILES[self::REQUEST_XML_FILE]['tmp_name']);
@@ -487,7 +481,7 @@ class manufakturConfigDialog {
     }
     else {
       // nothing to do ...
-      $this->setMessage($this->lang->I18n('There was no file specified for upload!'));
+      $this->setMessage($this->lang->translate('There was no file specified for upload!'));
       return $this->xmlImport();
     }
     $module_directory = isset($_REQUEST[self::REQUEST_XML_MODULE_ONLY]) ? self::$module_directory : null;

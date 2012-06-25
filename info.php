@@ -4,12 +4,9 @@
  * manufakturConfig
  *
  * @author Ralf Hertsch <ralf.hertsch@phpmanufaktur.de>
- * @link http://phpmanufaktur.de
+ * @link https://addons.phpmanufaktur.de/manufakturConfig
  * @copyright 2012 phpManufaktur by Ralf Hertsch
- * @license http://www.gnu.org/licenses/gpl.html GNU Public License (GPL)
- * @version $Id$
- *
- * FOR VERSION- AND RELEASE NOTES PLEASE LOOK AT INFO.TXT!
+ * @license MIT License (MIT) http://www.opensource.org/licenses/MIT
  */
 
 // include class.secure.php to protect this file and the whole CMS!
@@ -32,7 +29,6 @@ if (defined('WB_PATH')) {
 }
 // end include class.secure.php
 
-
 $module_directory = 'manufaktur_config';
 $module_name = 'manufakturConfig';
 $module_function = (defined('LEPTON_VERSION')) ? 'library' : 'snippet';
@@ -40,9 +36,7 @@ $module_version = '0.10';
 $module_status = 'BETA';
 $module_platform = '2.8';
 $module_author = 'Ralf Hertsch - Berlin (Germany)';
-$module_license = 'GNU Public License (GPL)';
-$module_description = 'Configuration tool for phpManufaktur addons';
-$module_home = 'http://phpmanufaktur.de/manufaktur_config';
+$module_license = 'MIT license (MIT)';
+$module_description = 'Configuration tool for WebsiteBaker and LEPTON CMS addons';
+$module_home = 'https://addons.phpmanufaktur.de/manufakturConfig';
 $module_guid = 'BAC7FC79-6BA3-41F4-AE94-2DB7D7B1A4B1';
-
-?>
