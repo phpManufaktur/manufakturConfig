@@ -21,7 +21,7 @@
       {if count_characters($message.text) > 0}
         {$message.text}
       {else}
-        {translate('Please select the XML file which should imported.')}
+        {translate('Select the XML file you wish to import')}
       {/if}
     </div>
     <div class="mc_clear"></div>
