@@ -144,7 +144,7 @@ class manufakturConfigDialog {
    * @param $template string
    * @param $template_data array
    */
-  protected function getTemplate($template, $template_data) {
+  protected function getTemplate($template, $template_data, $trigger_error=false) {
     global $parser;
 
     $template_path = LEPTON_PATH.'/modules/'.basename(dirname(__FILE__)).'/templates/backend/';
@@ -156,9 +156,11 @@ class manufakturConfigDialog {
       $result = $parser->get($load_template, $template_data);
     } catch (Exception $e) {
       $this->setError(sprintf('[%s - %s] %s', __METHOD__, __LINE__, $this->lang->translate(
-          'Error executing the template ' . '<b>{{ template }}</b>: {{ error }}', array(
+          'Error executing the template <b>{{ template }}</b>: {{ error }}', array(
               'template' => basename($load_template),
               'error' => $e->getMessage()))));
+      if ($trigger_error)
+        trigger_error($this->getError(), E_USER_ERROR);
       return false;
     }
     return $result;
@@ -219,7 +221,7 @@ class manufakturConfigDialog {
         'error' => ($this->isError()) ? 1 : 0,
         'content' => ($this->isError()) ? $this->getError() : $content
         );
-    return $this->getTemplate('body.lte', $data);
+    return $this->getTemplate('body.lte', $data, true);
   } // show();
 
   /**
