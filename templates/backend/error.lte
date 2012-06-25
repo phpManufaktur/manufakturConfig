@@ -20,6 +20,6 @@
   </div>
   <div class="error_reporting">
     {$body=escape($content,'mail')}
-    {translate('Please help to improve open source software and report this problem to the <a href="mailto:ralf.hertsch@phpmanufaktur.de?subject=Error%20report&amp;body={{ body }}">phpManufaktur</a>.', array(body=$body))}
+    {translate('Please help to improve open source software and report this problem to the <a href="{{ url }}" target="_blank">phpManufaktur Addons Support</a> group.', array(url='https://phpmanufaktur.de/support'))}
   </div>
 </div>   
