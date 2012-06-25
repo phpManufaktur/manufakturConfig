@@ -2,10 +2,9 @@
  * manufakturConfig
  *
  * @author Ralf Hertsch <ralf.hertsch@phpmanufaktur.de>
- * @link http://phpmanufaktur.de/kit_cronjob
- * @copyright 2012
- * @license http://www.gnu.org/licenses/gpl.html GNU Public License (GPL)
- * @version $Id$
+ * @link https://addons.phpmanufaktur.de/manufakturConfig
+ * @copyright 2012 phpManufaktur by Ralf Hertsch
+ * @license MIT License (MIT) http://www.opensource.org/licenses/MIT
  *
  * Please consult the Dwoo Documentation & WIKI to get further informations 
  * and hints for the usage of the Dwoo template engine.
@@ -18,9 +17,9 @@
   {if $navigation.is_active == 1}
     <ul class="navigation">
     {foreach $navigation.items nav}
-      <li{if $nav.is_active == 1} class="selected"{/if} title="{I18n($nav.text)}">
+      <li{if $nav.is_active == 1} class="selected"{/if} title="{translate($nav.text)}">
         <a href="{$nav.link}">
-          {I18n($nav.text)}
+          {translate($nav.text)}
         </a>
       </li>
     {/foreach}

@@ -2,10 +2,9 @@
  * manufakturConfig
  *
  * @author Ralf Hertsch <ralf.hertsch@phpmanufaktur.de>
- * @link http://phpmanufaktur.de/kit_cronjob
- * @copyright 2012
- * @license http://www.gnu.org/licenses/gpl.html GNU Public License (GPL)
- * @version $Id$
+ * @link https://addons.phpmanufaktur.de/manufakturConfig
+ * @copyright 2012 phpManufaktur by Ralf Hertsch
+ * @license MIT License (MIT) http://www.opensource.org/licenses/MIT
  *
  * Please consult the Dwoo Documentation & WIKI to get further informations 
  * and hints for the usage of the Dwoo template engine.
@@ -19,12 +18,12 @@
     <input type="hidden" name="{$action.name}" value="{$action.value}" />
     <input type="hidden" name="{$request_items.name}" value="{$request_items.value}" />
     {if isset($page.name)}<input type="hidden" name="{$page.name}" value="{$page.value}" />{/if}
-    <h2>{I18n('Settings')}</h2>
+    <h2>{translate('Settings')}</h2>
     <div class="{if count_characters($message.text) > 0}message{else}intro{/if}">
       {if count_characters($message.text) > 0}
         {$message.text}
       {else}
-        {I18n('Edit the settings for {{ module_name }}.', array(module_name=$module_name))}
+        {translate('Edit the settings for {{ module_name }}.', array(module_name=$module_name))}
       {/if}
     </div>
     {$fieldset = 'ZERO'}
@@ -44,20 +43,20 @@
         {$fieldset_opne = 'FALSE'}</fieldset>
       {/if}
       
-      <div class="mc_label"><label for="{$item.name}">{I18n($item.label)}</label></div>
+      <div class="mc_label"><label for="{$item.name}">{translate($item.label)}</label></div>
       <div class="mc_value">
         {if (($item.type == 'LIST') || ($item.type == 'TEXT'))}
           <textarea name="{$item.name}">{$item.value}</textarea> 
         {elseif $item.type == 'BOOLEAN'}
           <select name="{$item.name}">
-            <option value="1"{if $item.value == '1'} selected="selected"{/if}>{I18n('Yes')}</option>
-            <option value="0"{if $item.value == '0'} selected="selected"{/if}>{I18n('No')}</option>
+            <option value="1"{if $item.value == '1'} selected="selected"{/if}>{translate('Yes')}</option>
+            <option value="0"{if $item.value == '0'} selected="selected"{/if}>{translate('No')}</option>
           </select>
         {else}
           <input type="text" name="{$item.name}" value="{$item.value}" />
         {/if}
       </div>
-      <div class="mc_hint">{I18n($item.hint)}</div>
+      <div class="mc_hint">{translate($item.hint)}</div>
     {/foreach}
     {if $fieldset_open == 'TRUE'}
       <div class="mc_clear"></div>
@@ -66,22 +65,22 @@
     <div class="mc_clear"></div>
     <div class="mc_xml_action">
       <fieldset>
-        <legend>{I18n('Import / Export')}</legend>
-        <div class="mc_label">{I18n('Settings')}</div>
+        <legend>{translate('Import / Export')}</legend>
+        <div class="mc_label">{translate('Settings')}</div>
         <div class="mc_value">
           <select name="{$xml.name}">
             {foreach $xml.items item}
-            <option value="{$item.value}"{if $item.value == $xml.value} selected="selected"{/if}>{I18n($item.text)}</option>
+            <option value="{$item.value}"{if $item.value == $xml.value} selected="selected"{/if}>{translate($item.text)}</option>
             {/foreach}
           </select>
         </div>
-        <div class="mc_hint">{I18n('To import settings from a XML file or to create a XML file from the settings please select the action you wish to perform.')}</div>
+        <div class="mc_hint">{translate('To import settings from a XML file or to create a XML file from the settings please select the action you wish to perform.')}</div>
         <div class="mc_clear"></div>
       </fieldset>
     </div>
     <div class="mc_submit">
-      <input type="submit" value="{I18n('OK')}" />&nbsp;
-      <input type="button" value="{I18n('Abort')}" onclick="javascript: window.location = '{$form.action}'; return false;" />
+      <input type="submit" value="{translate('OK')}" />&nbsp;
+      <input type="button" value="{translate('Abort')}" onclick="javascript: window.location = '{$form.action}'; return false;" />
     </div>
   </form>
 </div>
