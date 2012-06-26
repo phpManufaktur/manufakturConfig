@@ -149,5 +149,6 @@ $LANG = array(
     'XML file'
       => 'XML Datei',
     'Yes'
-      => 'Ja'
+      => 'Ja',
+
     );
