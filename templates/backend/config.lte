@@ -19,7 +19,7 @@
     <input type="hidden" name="{$request_items.name}" value="{$request_items.value}" />
     {if isset($page.name)}<input type="hidden" name="{$page.name}" value="{$page.value}" />{/if}
     <h2>{translate('Settings')}</h2>
-    <div class="{if count_characters($message.text) > 0}message{else}intro{/if}">
+    <div class="{if count_characters($message.text) > 0}mc_message{else}mc_intro{/if}">
       {if count_characters($message.text) > 0}
         {$message.text}
       {else}

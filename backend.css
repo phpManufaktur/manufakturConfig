@@ -96,3 +96,49 @@
   margin: 20px 0 0 0;
   padding: 0 0 0 20%;
 }
+.mc_error_message,
+.mc_message,
+.mc_intro {
+  color: #fff;
+  background-color: #5b768a;
+  margin: 15px 120px 10px 0;
+  padding: 10px;
+  font-size: 10px;
+  min-height: 45px;
+}
+.mc_error_message {
+  color: #fff;
+  background-color: #992826;
+}
+.mc_message {
+  color: #363636;
+  background-color: #d6c48d;
+}
+input {
+  width: 98%;
+  color: #363636;
+  background-color: transparent;
+}
+input[type=submit],
+input[type=button] {
+  width: 150px;
+}
+input[type=radio],
+input[type=checkbox] {
+  width: auto;
+}
+select {
+  width: 98%;
+  font-size:10px;
+}
+textarea {
+  width: 98%;
+  font-size: 10px;
+  color: #363636;
+  background-color: transparent;
+}
+kbd {
+  font-family: Courier, Monospace;
+  font-weight: bold;
+  font-style: normal;
+}

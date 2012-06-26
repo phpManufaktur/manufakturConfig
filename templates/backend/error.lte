@@ -15,10 +15,10 @@
  *}
 <div id="kit_error">
   <h2>{translate('Error message')}</h2>
-  <div class="error_message">
+  <div class="mc_error_message">
     {$content}
   </div>
-  <div class="error_reporting">
+  <div class="mc_error_reporting">
     {$body=escape($content,'mail')}
     {translate('Please help to improve open source software and report this problem to the <a href="{{ url }}" target="_blank">phpManufaktur Addons Support</a> group.', array(url='https://phpmanufaktur.de/support'))}
   </div>
