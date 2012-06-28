@@ -33,6 +33,12 @@ if (defined('WB_PATH')) {
 if (!defined('LEPTON_PATH'))
   require_once WB_PATH.'/modules/'.basename(dirname(__FILE__)).'/wb2lepton.php';
 
+// load language depending onfiguration from manufakturConfig
+if (file_exists(LEPTON_PATH.'/modules/'.basename(dirname(__FILE__)).'/languages/' . LANGUAGE . '.cfg.php'))
+  require_once(LEPTON_PATH .'/modules/'.basename(dirname(__FILE__)).'/languages/' .LANGUAGE .'.cfg.php');
+else
+  require_once(LEPTON_PATH .'/modules/'.basename(dirname(__FILE__)).'/languages/EN.cfg.php');
+
 // use LEPTON 2.x I18n for access to language files
 if (!class_exists('LEPTON_Helper_I18n'))
   require_once LEPTON_PATH.'/modules/'. basename(dirname(__FILE__)).'/framework/LEPTON/Helper/I18n.php';
