@@ -36,15 +36,21 @@ require_once LEPTON_PATH.'/modules/'.basename(dirname(__FILE__)).'/library.php';
 global $manufakturConfig;
 if (!is_object($manufakturConfig)) $manufakturConfig = new manufakturConfig();
 
-// set cache and compile path for the template engine
-$cache_path = LEPTON_PATH.'/temp/cache';
-if (!file_exists($cache_path)) mkdir($cache_path, 0755, true);
-$compiled_path = LEPTON_PATH.'/temp/compiled';
-if (!file_exists($compiled_path)) mkdir($compiled_path, 0755, true);
+if (!class_exists('Dwoo'))
+  require_once LEPTON_PATH.'/modules/dwoo/include.php';
 
-// init the template engine
+// initialize the template engine
 global $parser;
-if (!is_object($parser)) $parser = new Dwoo($compiled_path, $cache_path);
+if (!is_object($parser)) {
+  $cache_path = LEPTON_PATH.'/temp/cache';
+  if (!file_exists($cache_path)) mkdir($cache_path, 0755, true);
+  $compiled_path = LEPTON_PATH.'/temp/compiled';
+  if (!file_exists($compiled_path)) mkdir($compiled_path, 0755, true);
+  $parser = new Dwoo($compiled_path, $cache_path);
+}
+// load extensions for the template engine
+$loader = $parser->getLoader();
+$loader->addDirectory(LEPTON_PATH.'/modules/'.basename(dirname(__FILE__)).'/templates/plugins/');
 
 
 class manufakturConfigDialog {
@@ -71,6 +77,7 @@ class manufakturConfigDialog {
   private static $dialog_link = '';
   private static $img_url = '';
   private static $pages = null;
+  private static $abort_link = '';
   protected $lang = null;
 
   /**
@@ -79,13 +86,15 @@ class manufakturConfigDialog {
    * @param string $module_directory directory of the used module
    * @param string $module_name name of the used module
    * @param string $dialog_link link of the calling admin tool
+   * @param string $abort_link link to use if the configuration dialog is aborted
    */
-  public function __construct($module_directory, $module_name, $dialog_link) {
+  public function __construct($module_directory, $module_name, $dialog_link, $abort_link='') {
     global $I18n;
     $this->lang = $I18n;
     self::$module_directory = $module_directory;
     self::$module_name = $module_name;
     self::$dialog_link = $dialog_link;
+    self::$abort_link = $abort_link;
     self::$img_url = LEPTON_URL.'/modules/'.basename(dirname(__FILE__)).'/images/';
     self::$pages = null;
     // make shure that the KIT_HTML_REQUEST session is active!
@@ -295,10 +304,13 @@ class manufakturConfigDialog {
         'module_name' => self::$module_name,
         'form' => array(
             'name' => 'manufaktur_cfg',
-            'action' => self::$dialog_link),
+            'action' => self::$dialog_link,
+            'abort' => (!empty(self::$abort_link)) ? self::$abort_link : self::$dialog_link
+            ),
         'action' => array(
             'name' => self::REQUEST_ACTION,
-            'value' => self::ACTION_CHECK),
+            'value' => self::ACTION_CHECK
+            ),
         'page' => array(
             'name' => (is_null($page)) ? null : manufakturConfig::FIELD_VALUE_PAGE,
             'value' => $page
@@ -405,7 +417,8 @@ class manufakturConfigDialog {
     $data = array(
         'form' => array(
             'name' => 'manufaktur_import_xml',
-            'action' => self::$dialog_link
+            'action' => self::$dialog_link,
+            'abort' => (!empty(self::$abort_link)) ? self::$abort_link : self::$dialog_link
             ),
         'action' => array(
             'name' => self::REQUEST_ACTION,
