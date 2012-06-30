@@ -1,6 +1,10 @@
 ### manufakturConfig
 
-Release 0.12 - 2012-06-30
+Release 0.13 - 2012-06-30
+
+* completed README.md
+
+Release 0.12 - 2012-06-29
 
 * changed call of the Dwoo template engine
 * added language depending configuration
