@@ -332,6 +332,27 @@ class manufakturConfig {
   } // unsanitize()
 
   /**
+    * Generate a password with the desired length
+    *
+    * @param integer $length
+    * @return string
+    */
+  public static function generatePassword($length=7) {
+    $new_pass = '';
+    $salt = 'abcdefghjkmnpqrstuvwxyz123456789';
+    srand((double)microtime()*1000000);
+    $i=0;
+    while ($i <= $length) {
+      $num = rand() % 33;
+      $tmp = substr($salt, $num, 1);
+      $new_pass = $new_pass . $tmp;
+      $i++;
+    }
+    return $new_pass;
+  } // generatePassword()
+
+
+  /**
    * Check if to use the module group instead of the module directory to gather
    * the settings for the module
    *

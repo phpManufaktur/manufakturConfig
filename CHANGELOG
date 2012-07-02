@@ -1,5 +1,9 @@
 ### manufakturConfig
 
+Release 0.14 - 2012-07-02
+
+* added function generatePassword() to class manufakturConfig
+
 Release 0.13 - 2012-06-30
 
 * completed README.md
