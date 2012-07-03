@@ -499,7 +499,24 @@ class manufakturConfig {
       $settings[] = $setting;
     }
     return true;
-  } // getConfigValuesForModule()
+  } // getSettingsForModule()
+
+  /**
+   * Delete the setting for the module in $module_directory
+   *
+   * @param string $module_directory
+   * @return boolean
+   */
+  public function deleteSettingsForModule($module_directory) {
+    global $database;
+
+    $SQL = sprintf("DELETE FROM `%s` WHERE `cfg_module_directory`='%s'", $this->getTableName(), $module_directory);
+    if (null == ($query = $database->query($SQL))) {
+      $this->setError(sprintf('[%s - %s] %s', __METHOD__, __LINE__, $database->get_error()));
+      return false;
+    }
+    return true;
+  } // deleteSettingsForModule()
 
   /**
    * Check the settings and update database record.
@@ -996,8 +1013,10 @@ class manufakturConfig {
     // catch the XML errors
     libxml_use_internal_errors(true);
     // create XML iterator object
-    if (false === ($xmlIterator = new SimpleXMLIterator($path, 0, true))) {
-      $this->setXMLerror(__METHOD__, __LINE__ - 1);
+    try {
+      $xmlIterator = new SimpleXMLIterator($path, 0, true);
+    } catch (Exception $e) {
+      $this->setXMLerror(__METHOD__, $e->getLine(), - 1);
       return false;
     }
     $message = '';

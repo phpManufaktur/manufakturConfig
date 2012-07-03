@@ -1,5 +1,18 @@
 ### manufakturConfig
 
+2012 phpManufaktur by Ralf Hertsch  
+MIT License (MIT) <http://www.opensource.org/licenses/MIT>  
+<https://addons.phpmanufaktur.de/kitCronjob>
+
+
+Release 0.16
+
+* improved error handling while parsing XML files
+
+Release 0.15 - 2012-07-03
+
+* added function deleteSettingsForModule() to class manufakturConfig
+
 Release 0.14 - 2012-07-02
 
 * added function generatePassword() to class manufakturConfig
