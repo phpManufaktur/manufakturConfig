@@ -29,11 +29,34 @@ if (defined('WB_PATH')) {
 }
 // end include class.secure.php
 
+if (!defined('LEPTON_PATH'))
+  require_once WB_PATH.'/modules/'.basename(dirname(__FILE__)).'/wb2lepton.php';
+
+global $database;
 global $admin;
 
-$error = '';
+if (defined('LEPTON_VERSION'))
+  $database->prompt_on_error(false);
 
-// Prompt Errors
-if (!empty($error)) {
-	$admin->print_error($error);
+/**
+ * Check if the specified $field in table mod_wysiwyg exists
+ *
+ * @param string $table name without prefix
+ * @param string $field the required field
+ * @return boolean
+ */
+function fieldExists($table, $field) {
+  global $database;
+  global $admin;
+  if (null === ($query = $database->query("DESCRIBE `".TABLE_PREFIX.$table."`")))
+    $admin->print_error($database->get_error());
+  while (false !== ($data = $query->fetchRow(MYSQL_ASSOC)))
+    if ($data['Field'] == $field) return true;
+  return false;
+} // sqlFieldExists()
+
+if (!fieldExists('mod_manufaktur_config', 'cfg_value_set_order')) {
+  $SQL = "ALTER TABLE `".TABLE_PREFIX."mod_manufaktur_config` ADD `cfg_value_set_order` INT(11) NOT NULL DEFAULT '0' AFTER `cfg_value_set`";
+  if (!$database->query($SQL))
+    $admin->print_error($database->get_error());
 }

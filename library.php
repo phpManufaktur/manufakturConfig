@@ -57,6 +57,7 @@ class manufakturConfig {
   const FIELD_USAGE = 'cfg_usage';
   const FIELD_VALUE = 'cfg_value';
   const FIELD_VALUE_SET = 'cfg_value_set';
+  const FIELD_VALUE_SET_ORDER = 'cfg_value_set_order';
   const FIELD_VALUE_PAGE = 'cfg_value_page';
   const FIELD_LABEL = 'cfg_label';
   const FIELD_HINT = 'cfg_hint';
@@ -155,6 +156,7 @@ class manufakturConfig {
         "`cfg_usage`ENUM('REGULAR','HIDDEN','READONLY') NOT NULL DEFAULT 'REGULAR', ".
         "`cfg_value` TEXT, ".
         "`cfg_value_set` VARCHAR(64) NOT NULL DEFAULT 'NONE', ".
+        "`cfg_value_set_order` INT(11) NOT NULL DEFAULT '0', ".
         "`cfg_value_page` VARCHAR(64) NOT NULL DEFAULT 'NONE', ".
         "`cfg_label` VARCHAR(64) NOT NULL DEFAULT '', ".
         "`cfg_hint` TEXT, ".
@@ -471,7 +473,7 @@ class manufakturConfig {
           "`cfg_module_directory`='$module_directory' AND `cfg_name`='mcFieldsetOrder'";
       $order = $database->get_one($SQL, MYSQL_ASSOC);
       if (is_null($order)) {
-        $fieldset = "`cfg_value_set` ASC";
+        $fieldset = "`cfg_value_set` ASC, `cfg_value_set_order` ASC";
       }
       else {
         $sets = explode(',', $order);
@@ -481,7 +483,7 @@ class manufakturConfig {
           $start ? $fieldset .= "," : $start = false;
           $fieldset .= "'$set'";
         }
-        $fieldset .= ")";
+        $fieldset .= "), `cfg_value_set_order` ASC";
       }
       $SQL = "SELECT * FROM `".$this->getTableName()."` WHERE $where AND ".
           "`cfg_usage`='REGULAR'$select_page ORDER BY $fieldset, `cfg_name` ASC";
@@ -1073,16 +1075,19 @@ class manufakturConfig {
         $data[self::FIELD_NAME] = (string) $attr->name;
         $data[self::FIELD_USAGE] = strtoupper($attr->usage);
         $data[self::FIELD_UPDATE] = strtoupper($attr->update);
+        $old_level = error_reporting(0);
         if (!isset($setting->value->attributes()->type)) {
           // missing the type for the value
           $message .= $this->lang->translate('<p>Missing the attribute <b>type</b> for the value of <b>{{ name }}</b>, skipped entry!</p>',
               array('name' => $attr->name));
           continue;
         }
+        error_reporting($old_level);
         $data[self::FIELD_TYPE] = strtoupper($setting->value->attributes()->type);
         $data[self::FIELD_VALUE] = (string) $setting->value;
         $data[self::FIELD_VALUE_PAGE] = 'NONE';
         $data[self::FIELD_VALUE_SET] = 'NONE';
+        $data[self::FIELD_VALUE_SET_ORDER] = 0;
         $data[self::FIELD_HINT] = '';
         $data[self::FIELD_LABEL] = '';
         if (strtoupper($attr->usage) != self::USAGE_HIDDEN) {
@@ -1099,6 +1104,7 @@ class manufakturConfig {
           }
           $data[self::FIELD_VALUE_PAGE] = (string) $setting->dialog->attributes()->page;
           $data[self::FIELD_VALUE_SET] = (string) $setting->dialog->attributes()->set;
+          $data[self::FIELD_VALUE_SET_ORDER] = isset($setting->dialog->attributes()->set_order) ? (int) $setting->dialog->attributes()->set_order : 0;
           $data[self::FIELD_HINT] = (string) $setting->dialog->hint;
           $data[self::FIELD_LABEL] = (string) $setting->dialog->label;
         }
