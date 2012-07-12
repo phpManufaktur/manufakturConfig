@@ -135,6 +135,12 @@ class manufakturConfig {
    */
   public function __construct($module_directory = null) {
     global $I18n;
+    global $database;
+
+    if (method_exists('database', 'prompt_on_error'))
+      // we dont't need the direct error prompt of LEPTON
+      $database->prompt_on_error(false);
+
     date_default_timezone_set(CFG_TIME_ZONE);
     $this->lang = $I18n;
     $this->table_name = TABLE_PREFIX.'mod_manufaktur_config';
@@ -912,6 +918,26 @@ class manufakturConfig {
     return true;
   } // setValue()
 
+  public function updateValue($name, $module_directory, $new_value) {
+    global $database;
+
+    $SQL = "SELECT `cfg_id` FROM `".$this->getTableName()."` WHERE `cfg_name`='$name' AND `cfg_module_directory`='$module_directory'";
+    if (false === ($id = $database->get_one($SQL, MYSQL_ASSOC))) {
+      $this->setError(sprintf('[%s - %s] %s', __METHOD__, __LINE__,
+          $this->lang->translate('The configuration key <b>{{ name }}</b> for the module directory <b>{{ directory }}</b> does not exists!',
+              array('name' => $name, 'directory' => $module_directory))));
+      return false;
+    }
+    // create a data array
+    $data = array(
+        self::FIELD_NAME => $name,
+        self::FIELD_MODULE_DIRECTORY => $module_directory,
+        self::FIELD_VALUE => $new_value
+        );
+    // exec the regular set value function
+    return $this->setValue($data, $id);
+  } // updateValue()
+
   /**
    * Master function to get values from the settings by the desired name for the
    * specified module directory.
@@ -937,7 +963,8 @@ class manufakturConfig {
       return null;
     }
     $setting = $query->fetchRow(MYSQL_ASSOC);
-    if (null == ($value = $this->formatValue($setting[self::FIELD_VALUE], $setting[self::FIELD_TYPE], self::FORMAT_PROCESS))) {
+    if ((null == ($value = $this->formatValue($setting[self::FIELD_VALUE], $setting[self::FIELD_TYPE], self::FORMAT_PROCESS)))
+        && $this->isError()) {
       $this->setError(sprintf('[%s - %s] %s', __METHOD__, __LINE__, $this->getError()));
       return null;
     }

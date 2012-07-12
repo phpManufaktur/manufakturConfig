@@ -1,6 +1,6 @@
 ### manufakturConfig
 
-**manufakturConfig** is a library for the Content Management Systems [WebsiteBaker] [1] and [LEPTON CMS] [2]. It offers addons an easy to use configuration and setting management and a "just call it" dialog. 
+**manufakturConfig** is a library for the Content Management Systems [WebsiteBaker] [1] and [LEPTON CMS] [2]. It offers other addons an easy to use configuration and setting management and a "just call it" dialog. 
 
 #### Requirements
 
