@@ -7,7 +7,7 @@ MIT License (MIT) <http://www.opensource.org/licenses/MIT>
 
 Release 0.16
 
-* improved error handling while parsing XML files
+* improved the error handling while parsing XML files
 * added XML attribute ´set_order` in tag `dialog` enables the manual order of fieldsets
 * switch off the internal database error prompting of LEPTON at runtime because manufakturConfig will prompt all errors by itself
 
