@@ -159,8 +159,7 @@ class manufakturConfigDialog {
     $template_path = LEPTON_PATH.'/modules/'.basename(dirname(__FILE__)).'/templates/backend/';
 
     // check if a custom template exists ...
-    $load_template = (file_exists($template_path.'custom.'.$template)) ? $template_path.'custom.'.$template
-    : $template_path.$template;
+    $load_template = (file_exists($template_path.'custom.'.$template)) ? $template_path.'custom.'.$template : $template_path.$template;
     try {
       $result = $parser->get($load_template, $template_data);
     } catch (Exception $e) {
