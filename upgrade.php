@@ -39,7 +39,7 @@ if (defined('LEPTON_VERSION'))
   $database->prompt_on_error(false);
 
 /**
- * Check if the specified $field in table mod_wysiwyg exists
+ * Check if the specified $field in the $table exists
  *
  * @param string $table name without prefix
  * @param string $field the required field
