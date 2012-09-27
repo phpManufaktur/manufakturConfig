@@ -32,8 +32,8 @@ if (defined('WB_PATH')) {
 $module_directory = 'manufaktur_config';
 $module_name = 'manufakturConfig';
 $module_function = (defined('LEPTON_VERSION')) ? 'library' : 'snippet';
-$module_version = '0.15';
-$module_status = 'BETA';
+$module_version = '0.16';
+$module_status = 'STABLE';
 $module_platform = '2.8';
 $module_author = 'Ralf Hertsch - Berlin (Germany)';
 $module_license = 'MIT license (MIT)';

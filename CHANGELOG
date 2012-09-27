@@ -2,14 +2,17 @@
 
 2012 phpManufaktur by Ralf Hertsch  
 MIT License (MIT) <http://www.opensource.org/licenses/MIT>  
-<https://addons.phpmanufaktur.de/kitCronjob>
+<https://addons.phpmanufaktur.de/manufakturConfig>
 
 
-Release 0.16
+Release 0.16 - 2012-09-27
 
 * improved the error handling while parsing XML files
-* added XML attribute ´set_order` in tag `dialog` enables the manual order of fieldsets
-* switch off the internal database error prompting of LEPTON at runtime because manufakturConfig will prompt all errors by itself
+* added XML attribute ´set_order` in tag `dialog` enables the manual order of 
+  fieldsets
+* switch off the internal database error prompting of LEPTON at runtime because 
+  manufakturConfig will prompt all errors by itself
+* added precheck.php
 
 Release 0.15 - 2012-07-03
 
