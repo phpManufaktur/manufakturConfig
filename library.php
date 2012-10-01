@@ -479,9 +479,9 @@ class manufakturConfig {
           "`cfg_module_directory`='$module_directory' AND `cfg_name`='mcFieldsetOrder'";
       $order = $database->get_one($SQL, MYSQL_ASSOC);
       if (is_null($order)) {
-        $fieldset = "`cfg_value_set` ASC, `cfg_value_set_order` ASC";
+        $fieldset = "`cfg_value_set` ASC, `cfg_value_set_order` ASC, ";
       }
-      else {
+      elseif (!empty($order)) {
         $sets = explode(',', $order);
         $fieldset = "FIELD(`cfg_value_set`";
         $start = true;
@@ -489,10 +489,13 @@ class manufakturConfig {
           $start ? $fieldset .= "," : $start = false;
           $fieldset .= "'$set'";
         }
-        $fieldset .= "), `cfg_value_set_order` ASC";
+        $fieldset .= "), `cfg_value_set_order` ASC, ";
+      }
+      else {
+        $fieldset = '';
       }
       $SQL = "SELECT * FROM `".$this->getTableName()."` WHERE $where AND ".
-          "`cfg_usage`='REGULAR'$select_page ORDER BY $fieldset, `cfg_name` ASC";
+          "`cfg_usage`='REGULAR'$select_page ORDER BY $fieldset`cfg_name` ASC";
     }
     else {
       $SQL = "SELECT * FROM `".$this->getTableName()."` WHERE $where AND ".

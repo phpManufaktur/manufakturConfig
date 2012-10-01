@@ -38,7 +38,7 @@
         {/if}
         {$fieldset = $item.set}
         <fieldset>
-        <legend>{$item.set}</legend>
+        <legend>{translate($item.set)}</legend>
       {elseif (($item.set == 'NONE') && ($fieldset_open == 'TRUE'))}
         {$fieldset_opne = 'FALSE'}</fieldset>
       {/if}

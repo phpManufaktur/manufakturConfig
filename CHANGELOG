@@ -4,6 +4,10 @@
 MIT License (MIT) <http://www.opensource.org/licenses/MIT>  
 <https://addons.phpmanufaktur.de/manufakturConfig>
 
+Release 0.17 - NOT PUBLISHED
+
+* added missing translation for fieldset legends
+* improved SQL query for the configuration dialog
 
 Release 0.16 - 2012-09-27
 
