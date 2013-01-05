@@ -5,7 +5,7 @@
  *
  * @author Ralf Hertsch <ralf.hertsch@phpmanufaktur.de>
  * @link https://addons.phpmanufaktur.de/manufakturConfig
- * @copyright 2012 phpManufaktur by Ralf Hertsch
+ * @copyright 2012 - 2013 phpManufaktur by Ralf Hertsch
  * @license MIT License (MIT) http://www.opensource.org/licenses/MIT
  */
 
@@ -60,3 +60,10 @@ if (!fieldExists('mod_manufaktur_config', 'cfg_value_set_order')) {
   if (!$database->query($SQL))
     $admin->print_error($database->get_error());
 }
+
+// Release 0.17
+
+@unlink(LEPTON_PATH.'/modules/manufaktur_config/templates/backend/body.lte');
+@unlink(LEPTON_PATH.'/modules/manufaktur_config/templates/backend/config.lte');
+@unlink(LEPTON_PATH.'/modules/manufaktur_config/templates/backend/error.lte');
+@unlink(LEPTON_PATH.'/modules/manufaktur_config/templates/backend/load.xml.lte');
