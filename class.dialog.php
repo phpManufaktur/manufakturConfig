@@ -5,7 +5,7 @@
  *
  * @author Ralf Hertsch <ralf.hertsch@phpmanufaktur.de>
  * @link https://addons.phpmanufaktur.de/manufakturConfig
- * @copyright 2012 phpManufaktur by Ralf Hertsch
+ * @copyright 2012 - 2013 phpManufaktur by Ralf Hertsch
  * @license MIT License (MIT) http://www.opensource.org/licenses/MIT
  */
 
@@ -225,7 +225,7 @@ class manufakturConfigDialog {
         'error' => ($this->isError()) ? 1 : 0,
         'content' => ($this->isError()) ? $this->getError() : $content
         );
-    return $this->getTemplate('body.lte', $data, true);
+    return $this->getTemplate('body.dwoo', $data, true);
   } // show();
 
   /**
@@ -338,7 +338,7 @@ class manufakturConfigDialog {
         'message' => array(
             'text' => $this->isMessage() ? $this->getMessage() : ''),
         'items' => $items,);
-    return $this->getTemplate('config.lte', $data);
+    return $this->getTemplate('config.dwoo', $data);
   } // dlgSettings()
 
   /**
@@ -435,7 +435,7 @@ class manufakturConfigDialog {
                 )
             )
         );
-    return $this->getTemplate('load.xml.lte', $data);
+    return $this->getTemplate('load.xml.dwoo', $data);
   } // xmlImport()
 
   /**

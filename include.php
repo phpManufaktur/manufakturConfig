@@ -5,7 +5,7 @@
  *
  * @author Ralf Hertsch <ralf.hertsch@phpmanufaktur.de>
  * @link https://addons.phpmanufaktur.de/manufakturConfig
- * @copyright 2012 phpManufaktur by Ralf Hertsch
+ * @copyright 2012 - 2013 phpManufaktur by Ralf Hertsch
  * @license MIT License (MIT) http://www.opensource.org/licenses/MIT
  *
  * Empty include.php for use with WebsiteBaker, allows installation

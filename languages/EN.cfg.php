@@ -5,7 +5,7 @@
  *
  * @author Ralf Hertsch <ralf.hertsch@phpmanufaktur.de>
  * @link https://addons.phpmanufaktur.de/manufakturConfig
- * @copyright 2012 phpManufaktur by Ralf Hertsch
+ * @copyright 2012 - 2013 phpManufaktur by Ralf Hertsch
  * @license MIT License (MIT) http://www.opensource.org/licenses/MIT
  */
 
@@ -29,8 +29,8 @@ if (defined('WB_PATH')) {
 }
 // end include class.secure.php
 if ('á' != "\xc3\xa1") {
-	// important: language files must be saved as UTF-8 (without BOM)
-	trigger_error('The language file <b>'.basename(__FILE__).'</b> is damaged, it must be saved <b>UTF-8</b> encoded!', E_USER_ERROR);
+  // important: language files must be saved as UTF-8 (without BOM)
+  trigger_error('The language file <b>'.basename(__FILE__).'</b> is damaged, it must be saved <b>UTF-8</b> encoded!', E_USER_ERROR);
 }
 
 if (!defined('CFG_CURRENCY'))

@@ -5,7 +5,7 @@
  *
  * @author Ralf Hertsch <ralf.hertsch@phpmanufaktur.de>
  * @link https://addons.phpmanufaktur.de/manufakturConfig
- * @copyright 2012 phpManufaktur by Ralf Hertsch
+ * @copyright 2012 - 2013 phpManufaktur by Ralf Hertsch
  * @license MIT License (MIT) http://www.opensource.org/licenses/MIT
  */
 
@@ -45,7 +45,7 @@ $PRECHECK['PHP_VERSION'] = array(
 $check = array(
     'Dwoo' => array(
         'directory' => 'dwoo',
-        'version' => '0.15',
+        'version' => '0.17',
         'problem' => 'Dwoo => <b><a href="https://addons.phpmanufaktur.de/download.php?file=Dwoo" target="_blank">Download actual version</a></b>'
         ),
     );
