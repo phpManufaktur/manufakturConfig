@@ -3,10 +3,10 @@
  *
  * @author Ralf Hertsch <ralf.hertsch@phpmanufaktur.de>
  * @link https://addons.phpmanufaktur.de/manufakturConfig
- * @copyright 2012 phpManufaktur by Ralf Hertsch
+ * @copyright 2012 - 2013 phpManufaktur by Ralf Hertsch
  * @license MIT License (MIT) http://www.opensource.org/licenses/MIT
  *
- * Please consult the Dwoo Documentation & WIKI to get further informations 
+ * Please consult the Dwoo Documentation & WIKI to get further informations
  * and hints for the usage of the Dwoo template engine.
  *
  * @link http://wiki.dwoo.org/
@@ -26,7 +26,7 @@
     </ul>
   {/if}
   {if $error == 1}
-    {include('error.lte')}
+    {include('error.dwoo')}
   {else}
     {$content}
   {/if}
