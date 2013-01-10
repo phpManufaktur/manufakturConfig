@@ -43,11 +43,11 @@ $LANG = array(
     'At minimun the fields NAME, TYPE and VALUE must set for configuration records of type HIDDEN.'
       => 'Für Konfigurations Datensätze vom Typ HIDDEN müssen wenigstens die Felder NAME, TYPE und VALUE gesetzt sein.',
     'Edit the settings for {{ module_name }}.'
-      => 'Bearbeiten Sie die Einstellungen für {{ module_name }}.',
+      => '<p>Bearbeiten Sie die Einstellungen für {{ module_name }}.</p>',
     'Error executing the template <b>{{ template }}</b>: {{ error }}'
       => 'Bei der Ausführung des Templates <b>{{ template }}</b> ist ein Fehler aufgetreten: {{ error }}',
     'Error message'
-      => 'Fehlermeldung',
+      => 'Uuups, da ist etwas schiefgelaufen ...',
     'Error writing the XML file {{ file }}.'
       => 'Fehler beim Schreiben der XML Datei {{ file }}.',
     'Export the settings for all modules as XML file (complete)'
@@ -85,7 +85,7 @@ $LANG = array(
     'OK'
       => 'OK',
     'Please help to improve open source software and report this problem to the <a href="{{ url }}" target="_blank">phpManufaktur Addons Support</a> group.'
-      => 'Bitte helfen Sie dabei diese Open Source Software zu verbessern und melden Sie das aufgetretene Problem an die <a href="{{ url }}" target="_blank">phpManufaktur Addons Support</a> Gruppe.',
+      => 'Bitte helfen Sie mit, diese Open Source Software zu verbessern und melden Sie das aufgetretene Problem der <strong><a href="{{ url }}" target="_blank">Addons Support Group</a></strong> der <strong>phpManufaktur</strong>.',
     '<i>reset</i> all settings to <b>default value</b>'
       => 'alle Einstellungen auf den <b>ursprünglichen Wert</b> <i>zurücksetzen</i>',
     '<p>Saved <b>{{ count }}</b> configuration records as XML file at <b>{{ file }}</b></p>'
