@@ -31,7 +31,7 @@ if (defined('WB_PATH')) {
 
 $module_directory = 'manufaktur_config';
 $module_name = 'manufakturConfig';
-$module_function = (defined('LEPTON_VERSION')) ? 'library' : 'snippet';
+$module_function = (defined('LEPTON_VERSION') || defined('CAT_VERSION')) ? 'library' : 'snippet';
 $module_version = '0.17';
 $module_status = 'STABLE';
 $module_platform = '2.8';

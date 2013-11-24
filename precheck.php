@@ -42,14 +42,16 @@ $PRECHECK['PHP_VERSION'] = array(
 );
 
 // modified precheck array
-$check = array(
-    'Dwoo' => array(
-        'directory' => 'dwoo',
-        'version' => '0.17',
-        'problem' => 'Dwoo => <b><a href="https://addons.phpmanufaktur.de/download.php?file=Dwoo" target="_blank">Download actual version</a></b>'
-        ),
-    );
-
+$check = array();
+if (!defined('CAT_VERSION')) {
+    $check = array(
+        'Dwoo' => array(
+            'directory' => 'dwoo',
+            'version' => '0.17',
+            'problem' => 'Dwoo => <b><a href="https://addons.phpmanufaktur.de/download.php?file=Dwoo" target="_blank">Download actual version</a></b>'
+            ),
+        );
+}
 $versionSQL = "SELECT `version` FROM `".TABLE_PREFIX."addons` WHERE `directory`='%s'";
 
 foreach ($check as $name => $addon) {
@@ -83,3 +85,12 @@ $PRECHECK['CUSTOM_CHECKS'][$key] = array(
     'ACTUAL' => $charset,
     'STATUS' => ($charset == 'utf-8')
 );
+
+if (!$checked) {
+    // if a problem occured prompt a hint and grant that the LEPTON/WB precheck fail
+    $PRECHECK['CUSTOM_CHECKS']['Please install or update all required addons.<br />Need help? Please contact the <b><a href="https://phpmanufaktur.de/support" target="_blank">phpManufaktur Support Group</a></b>.'] = array(
+        'REQUIRED' => 'OK',
+        'ACTUAL' => 'PROBLEM',
+        'STATUS' => false
+    );
+}
